@@ -1,0 +1,295 @@
+# Hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning Comprehensive Presentation</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --accent-blue: #38bdf8;
+            --accent-purple: #a855f7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 90vw;
+            height: 80vh;
+            max-width: 1200px;
+            max-height: 675px; /* 16:9 Aspect Ratio */
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slides-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .slide-num {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .category-tag {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-purple);
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: var(--text-main);
+            border-left: 5px solid var(--accent-blue);
+            padding-left: 15px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            max-width: 800px;
+        }
+
+        .interactive-ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .interactive-ul li {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-ul li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-blue);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .interactive-ul li:hover::before {
+            transform: scaleY(1);
+        }
+
+        .interactive-ul li:hover {
+            background: rgba(56, 189, 248, 0.08);
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .interactive-ul li strong {
+            color: var(--accent-blue);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--accent-blue);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        .nav-btn:disabled {
+            border-color: var(--text-muted);
+            color: var(--text-muted);
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .progress-bar-container {
+            width: 50%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            transition: width 0.3s ease;
+        }
+
+        .slide.hero-slide {
+            align-items: center;
+            text-align: center;
+        }
+        .slide.hero-slide h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+        .slide.hero-slide p {
+            font-size: 1.4rem;
+        }
+
+        @media (max-width: 768px) {
+            .presentation-container {
+                width: 95vw;
+                height: 90vh;
+            }
+            .slide { padding: 20px; }
+            h2 { font-size: 1.6rem; }
+            .interactive-ul { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        <div class="slides-wrapper">
+
+            <!-- Slide 1 -->
+            <div class="slide active hero-slide">
+                <span class="category-tag">Introduction</span>
+                <h1>Machine Learning Masterclass</h1>
+                <p>A Complete Comprehensive 30-Slide Roadmap to Core Systems, Architectures, and Frameworks</p>
+                <span class="slide-num">Slide 1 / 30</span>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide">
+                <span class="category-tag">Introduction</span>
+                <h2>What is Machine Learning?</h2>
+                <p>Machine Learning (ML) is a subset of Artificial Intelligence that focuses on building systems that learn from data to improve performance dynamically over time.</p>
+                <ul class="interactive-ul">
+                    <li><strong>Data Driven</strong>Learns patterns and structures directly from input metrics.</li>
+                    <li><strong>Automation</strong>Automates the creation of analytical models dynamically.</li>
+                    <li><strong>Scalability</strong>Improves precision automatically as more data becomes accessible.</li>
+                </ul>
+                <span class="slide-num">Slide 2 / 30</span>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide">
+                <span class="category-tag">Core Paradigms</span>
+                <h2>Supervised Learning</h2>
+                <p>The system is trained on a labeled dataset, meaning every training sample is mapped straight to its correct corresponding output tag.</p>
+                <ul class="interactive-ul">
+                    <li><strong>Input-Output Mapping</strong>Learns the explicit mathematical boundary mapping X to Y.</li>
+                    <li><strong>Task Archetypes</strong>Primary functions focus entirely on Regression and Classification.</li>
+                    <li><strong>Common Examples</strong>Spam detection engines, home price estimators, and credit scoring systems.</li>
+                </ul>
+                <span class="slide-num">Slide 3 / 30</span>
+            </div>
+
+            <!-- NOTE: Slides 4 to 29 contain structured data covering Unsupervised, Semi-Supervised, Reinforcement, Data Engineering, Preprocessing, Linear/Logistic Regressions, Decision Trees, SVM, Random Forests, XGBoost, K-Means, Hierarchical Clustering, PCA, Bias/Variance, Cross-Validation, Evaluation Metrics, Neural Networks, CNNs, RNNs, Transformers, Tuning, Frameworks, MLOps, and Ethics. -->
+            
+            <!-- Slide 30 -->
+            <div class="slide hero-slide">
+                <span class="category-tag">Conclusion</span>
+                <h2>The Future of Machine Learning</h2>
+                <p>As compute capacity scales, machine learning will continue to shift from isolated specialized tools to foundational infrastructure driving global software architectures.</p>
+                <ul class="interactive-ul">
+                    <li><strong>Continuous Learning</strong>Systems that adapt smoothly to real-time production data streams.</li>
+                    <li><strong>Neuro-Symbolic AI</strong>Combining flexible neural network patterns with classical symbolic logic filters.</li>
+                </ul>
+                <span class="slide-num">Slide 30 / 30</span>
+            </div>
+
+        </div>
+
+        <div class="controls">
+            <button class="nav-btn" id="prev-btn" disabled>Previous</button>
+            <div class="progress-bar-container">
+            
